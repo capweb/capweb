@@ -389,6 +389,7 @@ module.exports = "<div class=\"color-line\"></div>\r\n\r\n<div class=\"login-con
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_auth_service__ = __webpack_require__("../../../../../src/app/auth/service/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_shared_service_home_service__ = __webpack_require__("../../../../../src/app/home/shared/service/home.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -401,12 +402,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LoginComponent = (function () {
-    function LoginComponent(_auth, _router) {
+    function LoginComponent(_auth, _home, _router) {
         this._auth = _auth;
+        this._home = _home;
         this._router = _router;
     }
     LoginComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.cred = {
             username: "",
             password: ""
@@ -415,6 +419,10 @@ var LoginComponent = (function () {
         // if (this._auth.authed()) {
         //   this._router.navigate(['/dashboard'])
         // }
+        this._home.get4id().subscribe(function (_data) {
+            console.log("authed already");
+            _this._router.navigate(['/dashboard']);
+        });
     };
     LoginComponent.prototype.submit = function () {
         var _this = this;
@@ -446,6 +454,7 @@ var LoginComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/auth/login/login.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__service_auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_3__home_shared_service_home_service__["a" /* HomeService */],
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]])
     ], LoginComponent);
     return LoginComponent;
@@ -944,6 +953,9 @@ var DashboardComponent = (function () {
             _this.data = _this.team_total;
             _this.data_to_render = _this.data;
         });
+        this._home.get4id().subscribe(function (_data) {
+            _this.user = _data;
+        });
         this.date = new Date;
         this.data = this.date;
         this.data_to_render = this.data;
@@ -952,9 +964,9 @@ var DashboardComponent = (function () {
         if (!$('#tlcontent').val().trim())
             return;
         var item = {
-            "first": "Ariane",
-            "last": "Alfred",
-            "uid": 83,
+            "first": this.user.first_name,
+            "last": this.user.last_name,
+            "uid": this.user.user,
             "content": $('#tlcontent').val(),
             "date": new Date()
         };
@@ -4714,7 +4726,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/home/users/user-new/user-new.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"small-header\">\r\n    <div class=\"small-header\">\r\n      <div class=\"hpanel\">\r\n        <div class=\"panel-body\">\r\n          <div id=\"hbreadcrumb\" class=\"pull-right\">\r\n            <ol class=\"hbreadcrumb breadcrumb\">\r\n              <li>\r\n                <a [routerLink]=\"['/dashboard']\">Dashboard</a>\r\n              </li>\r\n              <li>\r\n                <a [routerLink]=\"['/users/user-profile',uid]\">My Profile</a>\r\n              </li>\r\n              <li class=\"active\">\r\n                <span>New Profile </span>\r\n              </li>\r\n            </ol>\r\n          </div>\r\n          <h2 class=\"font-light m-b-xs\">\r\n            New Profile\r\n          </h2>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  \r\n  \r\n    <div class=\"content\" >\r\n      <div class=\"row\">\r\n        <div class=\"col-lg-12\">\r\n          <div class=\"hpanel\">\r\n  \r\n            <div class=\"panel-body\">\r\n  \r\n              <form (ngSubmit)=\"save()\" #userForm=\"ngForm\">\r\n  \r\n                <div class=\"text-center m-b-md\" id=\"wizardControl\">\r\n  \r\n  \r\n                </div>\r\n  \r\n                <div  class=\"tab-content\">\r\n                  <div >\r\n                    <div class=\"row\">\r\n                      <div class=\"col-lg-12\">\r\n                        <div class=\"row\">\r\n                          <div class=\"form-group col-lg-6\" [ngClass]=\"{'has-error': (v_ufirst.touched || v_ufirst.dirty) && !v_ufirst.valid}\">\r\n                            <label>First Name *</label>\r\n                            <span class=\"text-danger\" *ngIf=\"(v_ufirst.touched || v_ufirst.dirty) && v_ufirst.errors?.required\">\r\n                          <i class=\"fa fa-exclamation-triangle\"></i> Please enter a your first name</span>\r\n                            <span class=\"text-danger\" *ngIf=\"(v_ufirst.touched || v_ufirst.dirty) && v_ufirst.errors?.minlength\">\r\n                          <i class=\"fa fa-exclamation-triangle\"></i> Please enter minimum 2 character</span>\r\n                            <input #v_ufirst=\"ngModel\" required minlength=\"2\" [(ngModel)]='user_form.first_name' type=\"text\" class=\"form-control\" placeholder=\"Please enter a your first name\"\r\n                                   disabled   name=\"first\">\r\n                          </div>\r\n                          <div class=\"form-group col-lg-6\" [ngClass]=\"{'has-error': (v_ulast.touched || v_ulast.dirty) && !v_ulast.valid}\">\r\n                            <label>Last Name *</label>\r\n                            <span class=\"text-danger\" *ngIf=\"(v_ulast.touched || v_ulast.dirty) && v_ulast.errors?.required\">\r\n                          <i class=\"fa fa-exclamation-triangle\"></i> Please enter a your last name</span>\r\n                            <span class=\"text-danger\" *ngIf=\"(v_ulast.touched || v_ulast.dirty) && v_ulast.errors?.minlength\">\r\n                          <i class=\"fa fa-exclamation-triangle\"></i> Please enter minimum 2 character</span>\r\n                            <input #v_ulast=\"ngModel\" required minlength=\"2\" [(ngModel)]='user_form.last_name' type=\"text\" class=\"form-control\" placeholder=\"Please enter a your last name\"\r\n                                   disabled  name=\"last\">\r\n                          </div>\r\n                          <div class=\"form-group col-lg-12\">\r\n                            <label class=\"control-label\">Interested Areas</label>\r\n                            <br>\r\n                            <div *ngFor=\"let area of profile_form.related_areas\" class=\"col-lg-3\">\r\n                              <div class=\"checkbox checkbox-success checkbox-inline\">\r\n                                <input type=\"checkbox\" [(ngModel)]='area.value' [name]=\"area.tag_name\">\r\n                                <label> {{area.tag_name}} </label>\r\n                              </div>\r\n                            </div>\r\n                          </div>\r\n  \r\n                          <div class=\"col-lg-12\">\r\n                            <div class=\"hpanel\">\r\n                              <label>Description</label>\r\n                              <textarea style=\"resize:none;\" #v_pabs=\"ngModel\" required minlength=\"20\" rows=\"10\" required maxlength=\"2000\" id=\"longdes\" [(ngModel)]='profile_form.about'\r\n                                        type=\"text\" class=\"form-control\" placeholder=\" Introduce yourself\"\r\n                                        name=\"about\"></textarea>\r\n                            </div>\r\n                          </div>\r\n  \r\n  \r\n  \r\n                        </div>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n  \r\n  \r\n                  <div class=\"text-right m-t-xs\">\r\n  \r\n                    <!-- <a class=\"btn btn-info\" [ngClass]=\"{'disabled':!userForm.valid}\" >Submit</a> -->\r\n                    <a class=\"btn btn-info\" (click)=\"save()\" >Submit</a>\r\n  \r\n                  </div>\r\n  \r\n                </div>\r\n              </form>\r\n  \r\n            </div>\r\n          </div>\r\n        </div>\r\n  \r\n      </div>\r\n    </div>\r\n  "
+module.exports = "<div class=\"small-header\">\r\n    <div class=\"small-header\">\r\n      <div class=\"hpanel\">\r\n        <div class=\"panel-body\">\r\n          <div id=\"hbreadcrumb\" class=\"pull-right\">\r\n            <ol class=\"hbreadcrumb breadcrumb\">\r\n              <li>\r\n                <a [routerLink]=\"['/dashboard']\">Dashboard</a>\r\n              </li>\r\n              <li>\r\n                <a [routerLink]=\"['/users/user-profile',uid]\">My Profile</a>\r\n              </li>\r\n              <li class=\"active\">\r\n                <span>New Profile </span>\r\n              </li>\r\n            </ol>\r\n          </div>\r\n          <h2 class=\"font-light m-b-xs\">\r\n            New Profile\r\n          </h2>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  \r\n  \r\n    <div class=\"content\" >\r\n      <div class=\"row\">\r\n        <div class=\"col-lg-12\">\r\n          <div class=\"hpanel\">\r\n  \r\n            <div class=\"panel-body\">\r\n  \r\n              <form (ngSubmit)=\"save()\" #userForm=\"ngForm\">\r\n  \r\n                <div class=\"text-center m-b-md\" id=\"wizardControl\">\r\n  \r\n  \r\n                </div>\r\n  \r\n                <div  class=\"tab-content\">\r\n                  <div >\r\n                    <div class=\"row\">\r\n                      <div class=\"col-lg-12\">\r\n                        <div class=\"row\">\r\n                          <div class=\"form-group col-lg-6\" [ngClass]=\"{'has-error': (v_ufirst.touched || v_ufirst.dirty) && !v_ufirst.valid}\">\r\n                            <label>First Name *</label>\r\n                            <span class=\"text-danger\" *ngIf=\"(v_ufirst.touched || v_ufirst.dirty) && v_ufirst.errors?.required\">\r\n                          <i class=\"fa fa-exclamation-triangle\"></i> Please enter a your first name</span>\r\n                            <span class=\"text-danger\" *ngIf=\"(v_ufirst.touched || v_ufirst.dirty) && v_ufirst.errors?.minlength\">\r\n                          <i class=\"fa fa-exclamation-triangle\"></i> Please enter minimum 2 character</span>\r\n                            <input #v_ufirst=\"ngModel\" required minlength=\"2\" [(ngModel)]='user_form.first_name' type=\"text\" class=\"form-control\" placeholder=\"Please enter a your first name\"\r\n                                   disabled   name=\"first\">\r\n                          </div>\r\n                          <div class=\"form-group col-lg-6\" [ngClass]=\"{'has-error': (v_ulast.touched || v_ulast.dirty) && !v_ulast.valid}\">\r\n                            <label>Last Name *</label>\r\n                            <span class=\"text-danger\" *ngIf=\"(v_ulast.touched || v_ulast.dirty) && v_ulast.errors?.required\">\r\n                          <i class=\"fa fa-exclamation-triangle\"></i> Please enter a your last name</span>\r\n                            <span class=\"text-danger\" *ngIf=\"(v_ulast.touched || v_ulast.dirty) && v_ulast.errors?.minlength\">\r\n                          <i class=\"fa fa-exclamation-triangle\"></i> Please enter minimum 2 character</span>\r\n                            <input #v_ulast=\"ngModel\" required minlength=\"2\" [(ngModel)]='user_form.last_name' type=\"text\" class=\"form-control\" placeholder=\"Please enter a your last name\"\r\n                                   disabled  name=\"last\">\r\n                          </div>\r\n                          <div class=\"form-group col-lg-12\">\r\n                            <label class=\"control-label\">Interested Areas</label>\r\n                            <br>\r\n                            <div *ngFor=\"let area of areas\" class=\"col-lg-3\">\r\n                              <div class=\"checkbox checkbox-success checkbox-inline\">\r\n                                <input type=\"checkbox\" [(ngModel)]='area.value' [name]=\"area.tag_name\">\r\n                                <label> {{area.tag_name}} </label>\r\n                              </div>\r\n                            </div>\r\n                          </div>\r\n  \r\n                          <div class=\"col-lg-12\">\r\n                            <div class=\"hpanel\">\r\n                              <label>Description</label>\r\n                              <textarea style=\"resize:none;\" #v_pabs=\"ngModel\" required minlength=\"20\" rows=\"10\" required maxlength=\"2000\" id=\"longdes\" [(ngModel)]='profile_form.about'\r\n                                        type=\"text\" class=\"form-control\" placeholder=\" Introduce yourself\"\r\n                                        name=\"about\"></textarea>\r\n                            </div>\r\n                          </div>\r\n  \r\n  \r\n  \r\n                        </div>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n  \r\n  \r\n                  <div class=\"text-right m-t-xs\">\r\n  \r\n                    <!-- <a class=\"btn btn-info\" [ngClass]=\"{'disabled':!userForm.valid}\" >Submit</a> -->\r\n                    <a class=\"btn btn-info\" (click)=\"save()\" >Submit</a>\r\n  \r\n                  </div>\r\n  \r\n                </div>\r\n              </form>\r\n  \r\n            </div>\r\n          </div>\r\n        </div>\r\n  \r\n      </div>\r\n    </div>\r\n  "
 
 /***/ }),
 
@@ -4750,6 +4762,7 @@ var UserNewComponent = (function () {
         this._router = _router;
         this.profile_form = {};
         this.user_form = {};
+        this.areas = [];
     }
     UserNewComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -4774,9 +4787,10 @@ var UserNewComponent = (function () {
                     //this.data = this.areas;
                     //this.data_to_render = this.data;
                     // used data
-                    _this.profile_form.user = _this.user_form;
-                    _this.profile_form.related_areas = arr;
+                    _this.profile_form.user_id = _user_data.id;
                     _this.profile_form.about = "";
+                    _this.profile_form.related_areas = [];
+                    _this.areas = arr;
                     // unused data
                     _this.profile_form.utorid = "";
                     _this.profile_form.gender = "";
@@ -4784,9 +4798,7 @@ var UserNewComponent = (function () {
                         _this.profile_form.views = 0,
                         _this.profile_form.linkedin = "",
                         _this.profile_form.status = 0,
-                        _this.profile_form.team = 0,
-                        _this.profile_form.created_team = {};
-                    _this.ready = true;
+                        _this.ready = true;
                 });
             });
         }, function (err) {
@@ -4801,7 +4813,17 @@ var UserNewComponent = (function () {
     };
     UserNewComponent.prototype.save = function () {
         var _this = this;
-        console.log("wocao zheme niubi ne", this.profile_form);
+        for (var _i = 0, _a = this.areas; _i < _a.length; _i++) {
+            var area = _a[_i];
+            if (area.value) {
+                var item = {
+                    pk: area.pk,
+                    tag_name: area.tag_name
+                };
+                this.profile_form.related_areas.push(item);
+            }
+        }
+        console.log("New Profile", this.profile_form);
         this._userService.postRealProfile(this.profile_form).subscribe(function (_data) {
             console.log("shuo de dui", _data);
             swal({
@@ -5128,7 +5150,7 @@ var UserService = (function () {
             .catch(this.handleError);
     };
     UserService.prototype.postRealProfile = function (_payload) {
-        return this._http.post(this.url + this.rest + 'profiles/', _payload, this.httpOptions())
+        return this._http.post(this.url + this.rest + 'createprofile/', _payload, this.httpOptions())
             .do(function (data) { return console.log("Post Profile", data); })
             .catch(this.handleError);
     };
