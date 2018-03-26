@@ -953,8 +953,14 @@ var DashboardComponent = (function () {
             _this.data = _this.team_total;
             _this.data_to_render = _this.data;
         });
-        this._home.get4id().subscribe(function (_data) {
-            _this.user = _data;
+        this._home.get4id().subscribe(function (_ids) {
+            _this._UserService.getRealUser(_ids.user).subscribe(function (_data) {
+                _this.user = {
+                    id: _ids.user,
+                    first: _data.first_name,
+                    last: _data.last_name,
+                };
+            });
         });
         this.date = new Date;
         this.data = this.date;
