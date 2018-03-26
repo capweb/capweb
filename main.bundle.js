@@ -970,8 +970,8 @@ var DashboardComponent = (function () {
         if (!$('#tlcontent').val().trim())
             return;
         var item = {
-            "first": this.user.first_name,
-            "last": this.user.last_name,
+            "first": this.user.first,
+            "last": this.user.last,
             "uid": this.user.user,
             "content": $('#tlcontent').val(),
             "date": new Date()
