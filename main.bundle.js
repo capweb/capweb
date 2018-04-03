@@ -2447,6 +2447,9 @@ var ProjectDetailComponent = (function () {
                             _this.isSup = true;
                             // console.log('sid', _project.sid);
                         }
+                        if (_this.isSup = true) {
+                            _project.owner_role = 'Professor';
+                        }
                         console.log('are y0ou kidding', _this.currentuid);
                         _this._userService.getUser(_this.currentuid)
                             .subscribe(function (_user) {
